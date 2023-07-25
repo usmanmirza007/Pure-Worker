@@ -1,12 +1,15 @@
 import 'react-native-gesture-handler'
 import React, { useState, useRef, useEffect } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Image, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { PersistGate } from 'redux-persist/integration/react';
 import Snackbar from 'react-native-snackbar';
 import { store, persistor } from './src/store/store';
 import SplashScreen from 'react-native-splash-screen';
+import CustomDrawerContent from './src/navigation/SideMenu';
 
 // onboarding 
 import Login from './src/screens/Login';
@@ -27,8 +30,11 @@ import PRofileStep2 from './src/screens/profile/ProfileStep2';
 import ProfileStep3 from './src/screens/profile/ProfileStep3';
 import ProfileStep4 from './src/screens/profile/ProfileStep4';
 import ProfileStep5 from './src/screens/profile/ProfileStep5';
+import images from './src/constants/images';
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 const { width } = Dimensions.get('screen');
 
 export default () => {
@@ -95,58 +101,171 @@ export default () => {
   //   return () => unsubscribe();
   // }, []);
 
-  // function AppStack() {
-  //   return (
-  //     <>
-  //       <Drawer.Navigator
+  const BottomNavigation = () => {
 
-  //         style={{ flex: 1 }}
-  //         drawerContent={(props) => <CustomDrawerContent {...props} />}
-  //         drawerStyle={{
-  //           backgroundColor: 'white',
-  //           width: width * 0.8,
+    const customText = ({ text, color }: any) => (
+      <Text
+        style={{
+          fontSize: 12,
+          color: color,
+          marginBottom: 5,
+        }}>
+        {text}
+      </Text>
+    );
 
-  //         }}
-  //         screenOptions={{
-  //           activeTintcolor: 'white',
-  //           inactiveTintColor: '#000',
-  //           activeBackgroundColor: 'transparent',
-  //           itemStyle: {
-  //             width: width * 0.75,
-  //             backgroundColor: 'transparent',
-  //             paddingVertical: 16,
-  //             paddingHorizonal: 12,
-  //             justifyContent: 'center',
-  //             alignContent: 'center',
-  //             alignItems: 'center',
-  //             overflow: 'hidden',
-  //           },
-  //           labelStyle: {
-  //             fontSize: 18,
-  //             marginLeft: 12,
-  //             fontWeight: 'normal',
-  //           },
-  //         }}
-  //         initialRouteName="Home"
+    return (
+      <Tab.Navigator
+        initialRouteName="Home"
+        // tabBarOptions={{
+        //   // keyboardHidesTabBar: true,
+        //   style: {
+        //     borderTopWidth: 0,
+        //     borderTopColor: "transparent",
+        //     height: 65
+        //   },
+        //   borderTopColor: "transparent",
+        //   inactiveTintColor: 'white',
+        //   activeBackgroundColor: '#FCA311',
+        //   inactiveBackgroundColor: '#000',
+        //   activeTintColor: 'white'
+        // }}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused }) => {
+            var tintColor = '#fff';
+            var border: any = { borderRadius: 200 };
+            var icon;
 
-  //       >
-  //         <Drawer.Screen name="Home" component={Home}  options={{ headerShown: false }} />
-  //         <Drawer.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
-  //         <Drawer.Screen name="PastOrders" component={PastOrders} options={{ headerShown: false }} />
+            switch (route.name) {
+              case 'Home':
+                icon = images.bin;
+                border = {};
+                break;
+              case 'Search':
+                icon = images.bin;
+                border = {};
+                break;
 
-  //         <Stack.Screen name="OrderDetails" component={OrderDetails} options={{manimationEnabled: false, headerShown: false}} />
-  //         <Stack.Screen name="AddOrder" component={AddOrder} options={{manimationEnabled: false, headerShown: false}} />
-  //         <Stack.Screen name="EditOrder" component={EditOrder} options={{manimationEnabled: false, headerShown: false}} />
-  //         <Stack.Screen name="Checkout" component={Checkout} options={{manimationEnabled: false, headerShown: false}} />
-  //         <Stack.Screen name="CompleteOrder" component={CompleteOrder} options={{manimationEnabled: false, headerShown: false}} />
-  //         <Drawer.Screen name="DeliveryStatus" component={DeliveryStatus} options={{manimationEnabled: false, headerShown: false}} />
-  //         <Stack.Screen name="Message" component={Message} options={{manimationEnabled: false, headerShown: false}} />
-  //         <Stack.Screen name="MessageList" component={MessagesList} options={{manimationEnabled: false, headerShown: false}} />
-  //       </Drawer.Navigator>
+              case 'Movie':
+                icon = images.bin;
+                border = {};
+                break;
 
-  //     </>
-  //   );
-  // }
+              case 'Player':
+                icon = images.bin;
+                border = {};
+                break;
+
+              case 'Account':
+                icon = images.bin;
+                border = {};
+
+                break;
+              default:
+                break;
+            }
+
+            return (
+              <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                <Image
+                  source={icon}
+                  resizeMode="contain"
+                  style={[
+                    tintColor,
+                    border,
+                    {
+                      marginTop: 0,
+                      height: 25,
+                      width: 25,
+                    },
+                  ]}
+                />
+              </View>
+            );
+          },
+        })}>
+        <Tab.Screen
+          name="Home"
+          component={HomeStack}
+          options={{
+            tabBarLabel: ({ color }) => customText({ text: 'Home', color }),
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          component={HomeStack}
+          options={{
+            tabBarLabel: ({ color }) => customText({ text: 'Cart', color }),
+          }}
+        />
+        <Tab.Screen
+          name="Movie"
+          component={HomeStack}
+          options={{
+            tabBarLabel: ({ color }) => customText({ text: 'Vids', color }),
+          }}
+        />
+        <Tab.Screen
+          name="Player"
+          component={HomeStack}
+          options={{
+            tabBarLabel: ({ color }) => customText({ text: 'Feeds', color }),
+          }}
+        />
+        <Tab.Screen
+          name="Account"
+          component={HomeStack}
+          options={{
+            tabBarLabel: ({ color }) => customText({ text: 'Profile', color }),
+          }}
+        />
+      </Tab.Navigator>
+    );
+  };
+
+  function DrwaerStack() {
+    return (
+      <>
+        <Drawer.Navigator
+
+          // style={{ flex: 1 }}
+          drawerContent={(props) => <CustomDrawerContent {...props} />}
+          // drawerStyle={{
+          //   backgroundColor: 'white',
+          //   width: width * 0.8,
+
+          // }}
+          screenOptions={{
+            // activeTintcolor: 'white',
+            // inactiveTintColor: '#000',
+            // activeBackgroundColor: 'transparent',
+            // itemStyle: {
+            //   width: width * 0.75,
+            //   backgroundColor: 'transparent',
+            //   paddingVertical: 16,
+            //   paddingHorizonal: 12,
+            //   justifyContent: 'center',
+            //   alignContent: 'center',
+            //   alignItems: 'center',
+            //   overflow: 'hidden',
+            // },
+            // labelStyle: {
+            //   fontSize: 18,
+            //   marginLeft: 12,
+            //   fontWeight: 'normal',
+            // },
+          }}
+          initialRouteName="Home"
+
+        >
+          <Drawer.Screen name="Home" component={BottomNavigation} />
+
+          {/* <Drawer.Screen name="Home" component={Home} options={{ headerShown: false }} /> */}
+        </Drawer.Navigator>
+
+      </>
+    );
+  }
 
   function CustomerStack() {
     return (
@@ -159,15 +278,6 @@ export default () => {
         <Stack.Screen name="ProfileStep3" component={ProfileStep3} options={{ headerShown: false, animationEnabled: false }} />
         <Stack.Screen name="ProfileStep4" component={ProfileStep4} options={{ headerShown: false, animationEnabled: false }} />
         <Stack.Screen name="ProfileStep5" component={ProfileStep5} options={{ headerShown: false, animationEnabled: false }} />
-
-      </Stack.Navigator>
-    )
-  }
-
-  function VenderStack() {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen name="Homes" component={Home} options={{ headerShown: false, animationEnabled: false }} />
 
       </Stack.Navigator>
     )
@@ -201,7 +311,7 @@ export default () => {
     const loggedIn = useSelector((state: any) => state.user.isLoggedIn)
 
     if (loggedIn && loggedIn.token) {
-      return <HomeStack />
+      return <DrwaerStack />
     } else {
       return <OnboardingStack />
     }
