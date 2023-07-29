@@ -31,6 +31,7 @@ import ProfileStep3 from './src/screens/profile/ProfileStep3';
 import ProfileStep4 from './src/screens/profile/ProfileStep4';
 import ProfileStep5 from './src/screens/profile/ProfileStep5';
 import images from './src/constants/images';
+import commonStyle from './src/constants/commonStyle';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -106,7 +107,8 @@ export default () => {
     const customText = ({ text, color }: any) => (
       <Text
         style={{
-          fontSize: 12,
+          fontSize: 13,
+          fontFamily: commonStyle.fontFamily.semibold,
           color: color,
           marginBottom: 5,
         }}>
@@ -117,50 +119,51 @@ export default () => {
     return (
       <Tab.Navigator
         initialRouteName="Home"
-        // tabBarOptions={{
-        //   // keyboardHidesTabBar: true,
-        //   style: {
-        //     borderTopWidth: 0,
-        //     borderTopColor: "transparent",
-        //     height: 65
-        //   },
-        //   borderTopColor: "transparent",
-        //   inactiveTintColor: 'white',
-        //   activeBackgroundColor: '#FCA311',
-        //   inactiveBackgroundColor: '#000',
-        //   activeTintColor: 'white'
-        // }}
+        tabBarOptions={{
+          // keyboardHidesTabBar: true,
+          style: {
+            borderTopWidth: 0,
+            borderTopColor: "transparent",
+            height: 65
+          },
+          // borderTopColor: "transparent",
+          inactiveTintColor: '#00041380',
+          // activeBackgroundColor: '#FCA311',
+          
+          inactiveBackgroundColor: '#fff',
+          activeTintColor: '#000'
+        }}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused }) => {
-            var tintColor = '#fff';
-            var border: any = { borderRadius: 200 };
+            var tintColor = {tintColor: focused ? '#000' : '#00041380'};
+            var border: any = {  };
             var icon;
 
             switch (route.name) {
               case 'Home':
-                icon = images.bin;
+                icon = images.home;
                 border = {};
                 break;
-              case 'Search':
-                icon = images.bin;
-                border = {};
-                break;
-
-              case 'Movie':
-                icon = images.bin;
+              case 'Orders':
+                icon = images.order;
                 border = {};
                 break;
 
-              case 'Player':
-                icon = images.bin;
+              case 'Services':
+                icon = images.service;
                 border = {};
                 break;
 
-              case 'Account':
-                icon = images.bin;
+              case 'Chats':
+                icon = images.chat;
                 border = {};
-
                 break;
+
+              case 'Notifications':
+                icon = images.notification;
+                border = {};
+                break;
+
               default:
                 break;
             }
@@ -174,7 +177,7 @@ export default () => {
                     tintColor,
                     border,
                     {
-                      marginTop: 0,
+                      marginTop: 5,
                       height: 25,
                       width: 25,
                     },
@@ -192,33 +195,34 @@ export default () => {
           }}
         />
         <Tab.Screen
-          name="Search"
+          name="Orders"
           component={HomeStack}
           options={{
             tabBarLabel: ({ color }) => customText({ text: 'Cart', color }),
           }}
         />
         <Tab.Screen
-          name="Movie"
+          name="Services"
+          component={HomeStack}
+          options={{
+            tabBarLabel: ({ color }) => customText({ text: 'Cart', color }),
+          }}
+        />
+        <Tab.Screen
+          name="Chats"
           component={HomeStack}
           options={{
             tabBarLabel: ({ color }) => customText({ text: 'Vids', color }),
           }}
         />
         <Tab.Screen
-          name="Player"
+          name="Notifications"
           component={HomeStack}
           options={{
             tabBarLabel: ({ color }) => customText({ text: 'Feeds', color }),
           }}
         />
-        <Tab.Screen
-          name="Account"
-          component={HomeStack}
-          options={{
-            tabBarLabel: ({ color }) => customText({ text: 'Profile', color }),
-          }}
-        />
+     
       </Tab.Navigator>
     );
   };
@@ -255,7 +259,7 @@ export default () => {
             //   fontWeight: 'normal',
             // },
           }}
-          initialRouteName="Home"
+        // initialRouteName="Home"
 
         >
           <Drawer.Screen name="Home" component={BottomNavigation} />
@@ -267,7 +271,7 @@ export default () => {
     );
   }
 
-  function CustomerStack() {
+  function HomeStack() {
     return (
       <Stack.Navigator>
         <Stack.Screen name="Homes" component={Home} options={{ headerShown: false, animationEnabled: false }} />
@@ -281,16 +285,6 @@ export default () => {
 
       </Stack.Navigator>
     )
-  }
-
-  function HomeStack() {
-    const userType = useSelector((state: any) => state.user.isLoggedIn)
-    console.log('user ', userType);
-    // if (userType) {
-    return <CustomerStack />
-    // } else {
-    //   return <VenderStack />
-    // }
   }
 
   function OnboardingStack() {

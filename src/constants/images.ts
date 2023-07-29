@@ -21,5 +21,10 @@ const images = {
   time: require('../assets/images/time.png'),
   calendar: require('../assets/images/calendar.png'),
   info: require('../assets/images/info.png'),
+  home: require('../assets/images/home.png'),
+  chat: require('../assets/images/chat.png'),
+  notification: require('../assets/images/notification.png'),
+  order: require('../assets/images/order.png'),
+  service: require('../assets/images/service.png'),
 };
 export default images;

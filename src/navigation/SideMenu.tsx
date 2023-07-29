@@ -26,8 +26,8 @@ const SideMenu = () => {
       <ScrollView style={{}}>
      <TouchableOpacity
           onPress={() => {
-            dispatch(emptySplitApi.util.resetApiState())
-            dispatch(logout())
+            // dispatch(emptySplitApi.util.resetApiState())
+            // dispatch(logout())
           }}
           style={{ marginLeft: 15, marginTop: 20 }}>
           <Text style={{ fontSize: 16, color: '#000', fontFamily: commonStyle.fontFamily.medium, }}>Log Out</Text>
